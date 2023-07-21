@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Home from './components/HomePage';
 import Signup from './components/Signup';
 import Login from './components/Login';
+import TicTacToeGamePage from "./components/TicTacToe/TicTacToeGamePage";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import { signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
@@ -77,6 +78,11 @@ function App() {
             <Route
               path="/home"
               element={<Home isLoggedIn={isLoggedIn} user={user} />}
+            />
+            {/* Add a route for the "/ticTacToe/:gameKey" path */}
+            <Route
+              path="/ticTacToe/:gameKey"
+              element={<TicTacToeGamePage />}
             />
           </Routes>
         </section>
