@@ -1,0 +1,44 @@
+.backgammon-board {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 608px; /* Adjust the width as needed */
+}
+
+.backgammon-board-row {
+  display: flex;
+  gap: 8px;
+}
+
+/* Add a class to the second row to flip it horizontally */
+.backgammon-board-row--flipped {
+  transform: scaleX(-1); /* Flip the row horizontally */
+}
+
+.backgammon-board__point {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  width: 50px;
+  height: 200px;
+  background: linear-gradient(45deg, #eee 50%, #ccc 50%);
+}
+
+.backgammon-board__piece {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backgammon-board__piece--black {
+  background-color: black;
+}
+
+.backgammon-board__piece--white {
+  background-color: white;
+}
