@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/KeyboardShortcutTracker/static/css/main.e2f0587d.css",
-    "main.js": "/KeyboardShortcutTracker/static/js/main.3a577a6f.js",
-    "index.html": "/KeyboardShortcutTracker/index.html",
-    "main.e2f0587d.css.map": "/KeyboardShortcutTracker/static/css/main.e2f0587d.css.map",
-    "main.3a577a6f.js.map": "/KeyboardShortcutTracker/static/js/main.3a577a6f.js.map"
+    "main.css": "/backgammon/static/css/main.0505b744.css",
+    "main.js": "/backgammon/static/js/main.e86d7e43.js",
+    "index.html": "/backgammon/index.html",
+    "main.0505b744.css.map": "/backgammon/static/css/main.0505b744.css.map",
+    "main.e86d7e43.js.map": "/backgammon/static/js/main.e86d7e43.js.map"
   },
   "entrypoints": [
-    "static/css/main.e2f0587d.css",
-    "static/js/main.3a577a6f.js"
+    "static/css/main.0505b744.css",
+    "static/js/main.e86d7e43.js"
   ]
 }
