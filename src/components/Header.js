@@ -12,7 +12,7 @@ const Header = ({ isLoggedIn, onLogout }) => {
   return (
     <header className="py-4 px-6 bg-gray-900 text-white">
       <div className="flex justify-between items-center">
-        <Link to="/" className="flex items-center space-x-2">
+        <Link to="/backgammon" className="flex items-center space-x-2">
           <h1 className="text-xl font-semibold">Backgammon</h1>
         </Link>
         {/* Mobile Menu */}
@@ -62,13 +62,13 @@ const Header = ({ isLoggedIn, onLogout }) => {
           ) : (
             <>
               <Link
-                to="/login"
+                to="/backgammon/login"
                 className="text-white hover:text-gray-200 transition-colors"
               >
                 Login
               </Link>
               <Link
-                to="/signup"
+                to="/backgammon/signup"
                 className="bg-white text-gray-900 px-4 py-2 rounded-md hover:bg-gray-100 transition-colors"
               >
                 Sign Up

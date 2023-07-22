@@ -16,6 +16,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { get } from "firebase/database";
 import BackgammonGamePage from "./Backgammon/BackgammonGamePage";
+import { createStartingBoard } from "./Backgammon/gameUtils";
 
 const Home = ({ isLoggedIn, user }) => {
   const navigate = useNavigate();
@@ -90,39 +91,6 @@ const Home = ({ isLoggedIn, user }) => {
     }
   };
 
-  const createStartingBoard = () => {
-    // create the starting board
-    const startingBoard = {
-      0: [1, 1, 1, 1, 1],
-      1: [],
-      2: [],
-      3: [],
-      4: [2, 2, 2],
-      5: [],
-      6: [2, 2, 2, 2, 2],
-      7: [],
-      8: [],
-      9: [],
-      10: [],
-      11: [1, 1],
-      12: [2, 2],
-      13: [],
-      14: [],
-      15: [],
-      16: [],
-      17: [1, 1, 1, 1, 1],
-      18: [],
-      19: [1, 1, 1],
-      20: [],
-      21: [],
-      22: [],
-      23: [2, 2, 2, 2, 2],
-    };
-  
-    return startingBoard;
-  };
-  
-
   useEffect(() => {
     // Fetch the list of waiting games from the database
     const waitingGamesQuery = query(
@@ -175,19 +143,25 @@ const Home = ({ isLoggedIn, user }) => {
   }, []);
 
   return (
-    <div>
+    <div className="bg-gray-100 min-h-screen py-8">
       {isLoggedIn ? (
-        <div>
-          <button onClick={handleStartBackgammonGame}>Start Backgammon</button>
+        <div className="container mx-auto px-4">
+          <button
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+            onClick={handleStartBackgammonGame}
+          >
+            Start Backgammon
+          </button>
 
-          {/* Display waiting TicTacToe games */}
+          {/* Display waiting Backgammon games */}
           {waitingGames.length > 0 && (
-            <div>
-              <h2>Waiting Games:</h2>
-              <ul>
+            <div className="mt-8">
+              <h2 className="text-xl font-semibold mb-4">Waiting Games:</h2>
+              <ul className="space-y-2">
                 {waitingGames.map((game) => (
                   <li key={game.key}>
                     <button
+                      className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded"
                       onClick={() => handleJoinBackgammonGame(game.key, game)}
                     >
                       Join Game {game.key}
@@ -196,19 +170,20 @@ const Home = ({ isLoggedIn, user }) => {
                   </li>
                 ))}
               </ul>
-
-              <hr />
             </div>
           )}
 
-          {/* Display in-progress TicTacToe games */}
+          {/* Display in-progress Backgammon games */}
           {inProgressGames.length > 0 && (
-            <div>
-              <h2>In-Progress Games:</h2>
-              <ul>
+            <div className="mt-8">
+              <h2 className="text-xl font-semibold mb-4">In-Progress Games:</h2>
+              <ul className="space-y-2">
                 {inProgressGames.map((game) => (
                   <li key={game.key}>
-                    <button onClick={() => navigate(`/backgammon/${game.key}`)}>
+                    <button
+                      className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded"
+                      onClick={() => navigate(`/backgammon/${game.key}`)}
+                    >
                       Continue Game {game.key}
                     </button>
                     {/* Additional game details can be displayed here if needed */}

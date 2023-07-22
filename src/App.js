@@ -71,21 +71,19 @@ function App() {
         <section>
           <Routes>
             <Route
-              path="/"
+              path="/backgammon"
               element={<Home isLoggedIn={isLoggedIn} user={user} />}
             />
             <Route path="/signup" element={<Signup />} />
             <Route
-              path="/login"
+              path="/backgammon/login"
               element={<Login handleUserLogin={handleLogin} />}
             />
             {/* Add a route for the "/home" path */}
             <Route
-              path="/home"
+              path="/backgammon/home"
               element={<Home isLoggedIn={isLoggedIn} user={user} />}
             />
-            {/* Add a route for the "/ticTacToe/:gameKey" path */}
-            <Route path="/ticTacToe/:gameKey" element={<TicTacToeGamePage />} />
             <Route
               exact
               path="/backgammon/:gameKey"

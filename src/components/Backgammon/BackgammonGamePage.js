@@ -35,13 +35,23 @@ const BackgammonGamePage = () => {
 
   // Function to handle the dice roll
   const handleRollDice = () => {
-    // Roll the dice
     const diceResult = rollDice();
     setDiceValues(diceResult);
     setRemainingDiceValues(diceResult);
+
+    // if the roll is a double
+    if (diceResult[0] === diceResult[1]) {
+      // set the remaining dice values to the double
+      setRemainingDiceValues([...diceResult, ...diceResult]);
+    }
   };
 
   const handleMakeMove = (sourcePoint, destinationPoint) => {
+    // Check if the dice have been rolled
+    if (diceValues.length === 0) {
+      alert("Please roll the dice first.");
+      return;
+    }
     // Check if the game is in progress
     if (gameData.status !== "in-progress") {
       alert("The game is not in progress!");
@@ -67,7 +77,8 @@ const BackgammonGamePage = () => {
       destinationPoint,
       currentTurn,
       gameData,
-      direction
+      direction,
+      remainingDiceValues
     );
     if (!isValidMove) {
       alert("Invalid move!");
@@ -85,7 +96,9 @@ const BackgammonGamePage = () => {
       console.error("Invalid move. Destination point already has your piece.");
       return;
     }
-
+  
+    console.log("Updated Board:", updatedBoard); // Check if the board is updated correctly
+  
     // Update remaining dice values
     const pointsMoved = Math.abs(destinationPoint - sourcePoint);
     const remainingValues = [...remainingDiceValues]; // Create a copy of remainingDiceValues
@@ -172,14 +185,16 @@ const BackgammonGamePage = () => {
   }, [gameKey]);
 
   return (
-    <div>
+    <div className="bg-gray-100 min-h-screen">
       <BackgammonHeader gameData={gameData} currentUser={currentUser} />
       {gameData ? (
-        <div>
-          <h2>This is the Backgammon game page for game {gameKey}</h2>
-          <div>
+        <div className="max-w-xl mx-auto py-8 px-4">
+          <h2 className="text-2xl font-semibold mb-4">
+            This is the Backgammon game page for game {gameKey}
+          </h2>
+          <div className="mb-4">
             {/* Display player emails or "pending" */}
-            <h3>Players:</h3>
+            <h3 className="text-lg font-semibold mb-2">Players:</h3>
             <p>
               Player 1: {gameData.player1Email}
               <br />
@@ -187,14 +202,20 @@ const BackgammonGamePage = () => {
             </p>
           </div>
           {diceValues.length > 0 ? (
-            <div>
+            <div className="mb-4">
               {/* Display the rolled dice values */}
               <BackgammonDice diceValues={diceValues} />
               {/* Display the remaining dice values */}
-              <div>Remaining Dice: {remainingDiceValues.join(", ")}</div>
+              <div className="mt-2">
+                Remaining Dice: {remainingDiceValues.join(", ")}
+              </div>
             </div>
           ) : (
-            <button onClick={handleRollDice} disabled={!isRollDiceEnabled}>
+            <button
+              onClick={handleRollDice}
+              disabled={!isRollDiceEnabled}
+              className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md"
+            >
               Roll Dice
             </button>
           )}

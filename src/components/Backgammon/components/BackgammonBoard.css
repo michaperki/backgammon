@@ -16,6 +16,7 @@
 }
 
 .backgammon-board__point {
+  position: relative; /* Add relative positioning to the points container */
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
@@ -24,6 +25,26 @@
   width: 50px;
   height: 200px;
   background: linear-gradient(45deg, #eee 50%, #ccc 50%);
+}
+
+/* Add a divider between points 5 and 6 */
+.backgammon-board__point--5::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 109%; /* Place the divider at the center */
+  border-left: 3px solid red;
+}
+
+/* Add a divider between points 17 and 18 */
+.backgammon-board__point--17::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 109%; /* Place the divider at the center */
+  border-left: 3px solid red;
 }
 
 .backgammon-board__piece {
