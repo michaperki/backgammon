@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/backgammon/static/css/main.7ce087f3.css",
-    "main.js": "/backgammon/static/js/main.92032d15.js",
+    "main.js": "/backgammon/static/js/main.2f0cffb7.js",
     "index.html": "/backgammon/index.html",
     "main.7ce087f3.css.map": "/backgammon/static/css/main.7ce087f3.css.map",
-    "main.92032d15.js.map": "/backgammon/static/js/main.92032d15.js.map"
+    "main.2f0cffb7.js.map": "/backgammon/static/js/main.2f0cffb7.js.map"
   },
   "entrypoints": [
     "static/css/main.7ce087f3.css",
-    "static/js/main.92032d15.js"
+    "static/js/main.2f0cffb7.js"
   ]
 }
