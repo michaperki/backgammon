@@ -41,8 +41,6 @@ const BackgammonBoard = ({ board, onMove }) => {
       // Reset the selected points after the move is made
       setSelectedSourcePoint(null);
       setSelectedDestinationPoint(null);
-    } else {
-      console.error("Invalid move. Please select both source and destination points.");
     }
   };
 
