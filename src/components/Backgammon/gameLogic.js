@@ -1,78 +1,62 @@
+import { reverseIndex } from "./gameUtils";
+
 export const checkValidMove = (
-  sourcePoint,
-  destinationPoint,
-  currentTurn,
-  remainingDiceValues,
-  gameData
-) => {
-  // Check if the remainingDiceValues array is defined and not empty
-  if (!remainingDiceValues || remainingDiceValues.length === 0) {
-    return false; // No remaining dice values to use for the move
-  }
-
-  // Check if the source point is valid
-  if (sourcePoint < 0 || sourcePoint > 23) {
-    console.log("Invalid source point");
-    return false;
-  }
-
-  // Check if the destination point is valid
-  if (destinationPoint < 0 || destinationPoint > 23) {
-    console.log("Invalid destination point");
-    return false;
-  }
-
-  // Check if the source point is empty
-  if (gameData.board[sourcePoint].length === 0) {
-    console.log("Source point is empty");
-    return false;
-  }
-
-  if (gameData.board[destinationPoint].length > 1) {
-    const topPiece = gameData.board[destinationPoint][0];
-
-    if (topPiece !== currentTurn) {
-      console.log(
-        "Destination point has more than one of the opponent's piece"
-      );
-      console.log("Destination point:", destinationPoint);
-      console.log(
-        "Destination point pieces:",
-        gameData.board[destinationPoint]
-      );
-      console.log("Current turn:", currentTurn);
+    sourcePoint,
+    destinationPoint,
+    currentTurn,
+    gameData,
+    direction
+  ) => {
+    console.log("sourcePoint", sourcePoint);
+    console.log("destinationPoint", destinationPoint);
+    console.log("currentTurn", currentTurn);
+    console.log("gameData", gameData);
+    console.log("direction", direction);
+  
+    // turn 0 is the white player, turn 1 is the black player
+    // pieces are represented by 1 for white and 2 for black
+    const turnToColor = currentTurn + 1;
+  
+    // Get the correct source and destination points based on the direction
+    const correctedSourcePoint = reverseIndex(sourcePoint);
+    const correctedDestinationPoint = reverseIndex(destinationPoint);
+  
+    // sourcePointPieces and destinationPointPieces are the pieces on the board
+    const sourcePointPieces = gameData.board[correctedSourcePoint];
+    const destinationPointPieces = gameData.board[correctedDestinationPoint];
+  
+    // If the sourcePoint is empty, return false
+    if (sourcePointPieces.length === 0) {
+        console.log("sourcePointPieces.length === 0");
       return false;
     }
-  }
-
-  // Calculate the row of the source and destination points
-  const sourceRow = Math.floor(sourcePoint / 12); // Rows: 0 or 1
-  const destinationRow = Math.floor(destinationPoint / 12); // Rows: 0 or 1
-
-  // Check if the direction of movement is valid based on the player's turn and the rows
-  if (
-    (currentTurn === 0 && destinationRow > sourceRow) ||
-    (currentTurn === 1 && destinationRow < sourceRow)
-  ) {
-    console.log("Invalid move. Incorrect direction of movement.");
-    console.log("Current turn:", currentTurn);
-    console.log("Source row:", sourceRow);
-    console.log("Destination row:", destinationRow);
-    return false;
-  }
-
-  // Calculate the number of points the piece is moving
-  const pointsToMove = Math.abs(destinationPoint - sourcePoint);
-
-  // Check if the piece can move the correct number of points based on the dice roll
-  if (!remainingDiceValues.includes(pointsToMove)) {
-    console.log("Invalid move. Incorrect number of points moved.");
-    return false;
-  }
-
-  return true;
-};
-
+  
+    // If the sourcePoint is not the current player's turn, return false
+    if (sourcePointPieces[0] !== turnToColor) {
+        console.log("sourcePointPieces[0] !== turnToColor");
+      return false;
+    }
+  
+    // If the destinationPoint has more than one of the opponent's piece
+    // and the destinationPoint is not the current player's turn, return false
+    if (
+      destinationPointPieces.length > 1 &&
+      destinationPointPieces[0] !== turnToColor
+    ) {
+        console.log("destinationPointPieces.length > 1 && destinationPointPieces[0] !== turnToColor");
+      return false;
+    }
+  
+    // If the destinationPoint is greater than 23 or less than 0, return false
+    if (correctedDestinationPoint > 23 || correctedDestinationPoint < 0) {
+        console.log("correctedDestinationPoint > 23 || correctedDestinationPoint < 0");
+      return false;
+    }
+  
+    // Else
+    return true;
+  };
+  
 export const makeMove = (sourcePoint, destinationPoint, currentTurn, board) => {
   // Check if the destination point exists in the board
   if (!board.hasOwnProperty(destinationPoint)) {

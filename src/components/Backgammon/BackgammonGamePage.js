@@ -11,10 +11,12 @@ import BackgammonDice from "./components/BackgammonDice";
 const convertBoardObjectToArray = (boardObject) => {
   const boardArray = new Array(24).fill().map(() => []); // Create an array of empty arrays
 
-  for (const key in boardObject) {
-    const index = parseInt(key, 10);
-    boardArray[index] = boardObject[key];
+  // Loop through the board object and add the pieces to the board array
+  for (const [pointIndex, point] of Object.entries(boardObject)) {
+    boardArray[pointIndex] = point;
   }
+
+  console.log("boardArray", boardArray);
 
   return boardArray;
 };
@@ -57,14 +59,15 @@ const BackgammonGamePage = () => {
 
     // Determine the direction of movement based on the current player's turn
     const currentTurn = gameData.currentTurn;
+    const direction = currentTurn === 0 ? 1 : -1;
 
     // Check if the move is valid
     const isValidMove = checkValidMove(
       sourcePoint,
       destinationPoint,
       currentTurn,
-      remainingDiceValues,
-      gameData
+      gameData,
+      direction
     );
     if (!isValidMove) {
       alert("Invalid move!");

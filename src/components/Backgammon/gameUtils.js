@@ -34,3 +34,9 @@ export const rollDice = () => {
   const die2 = Math.floor(Math.random() * 6) + 1;
   return [die1, die2];
 };
+
+export const reverseIndex = (index) => {
+    // Add logic to reverse the index here
+    // Assuming the board has 24 points, the formula to reverse the index is:
+    return 23 - index;
+  };
