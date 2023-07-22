@@ -2,9 +2,14 @@ export const checkValidMove = (
   sourcePoint,
   destinationPoint,
   currentTurn,
-  diceValues,
+  remainingDiceValues,
   gameData
 ) => {
+  // Check if the remainingDiceValues array is defined and not empty
+  if (!remainingDiceValues || remainingDiceValues.length === 0) {
+    return false; // No remaining dice values to use for the move
+  }
+
   // Check if the source point is valid
   if (sourcePoint < 0 || sourcePoint > 23) {
     console.log("Invalid source point");
@@ -23,24 +28,36 @@ export const checkValidMove = (
     return false;
   }
 
-  // Check if the destination point has more than one of the opponent's piece
-  if (
-    gameData.board[destinationPoint].length > 1 &&
-    gameData.board[destinationPoint][0] !== currentTurn
-  ) {
-    console.log("Destination point has more than one of the opponent's piece");
-    console.log("Destination point:", destinationPoint);
-    console.log("Destination point pieces:", gameData.board[destinationPoint]);
-    console.log("Current turn:", currentTurn);
-    return false;
+  if (gameData.board[destinationPoint].length > 1) {
+    const topPiece = gameData.board[destinationPoint][0];
+
+    if (topPiece !== currentTurn) {
+      console.log(
+        "Destination point has more than one of the opponent's piece"
+      );
+      console.log("Destination point:", destinationPoint);
+      console.log(
+        "Destination point pieces:",
+        gameData.board[destinationPoint]
+      );
+      console.log("Current turn:", currentTurn);
+      return false;
+    }
   }
 
-  // Check if the direction of movement is valid based on the player's turn
+  // Calculate the row of the source and destination points
+  const sourceRow = Math.floor(sourcePoint / 12); // Rows: 0 or 1
+  const destinationRow = Math.floor(destinationPoint / 12); // Rows: 0 or 1
+
+  // Check if the direction of movement is valid based on the player's turn and the rows
   if (
-    (currentTurn === 0 && destinationPoint > sourcePoint) || // White moves from higher to lower index
-    (currentTurn === 1 && destinationPoint < sourcePoint) // Black moves from lower to higher index
+    (currentTurn === 0 && destinationRow > sourceRow) ||
+    (currentTurn === 1 && destinationRow < sourceRow)
   ) {
     console.log("Invalid move. Incorrect direction of movement.");
+    console.log("Current turn:", currentTurn);
+    console.log("Source row:", sourceRow);
+    console.log("Destination row:", destinationRow);
     return false;
   }
 
@@ -48,7 +65,7 @@ export const checkValidMove = (
   const pointsToMove = Math.abs(destinationPoint - sourcePoint);
 
   // Check if the piece can move the correct number of points based on the dice roll
-  if (!diceValues.includes(pointsToMove)) {
+  if (!remainingDiceValues.includes(pointsToMove)) {
     console.log("Invalid move. Incorrect number of points moved.");
     return false;
   }
@@ -74,15 +91,6 @@ export const makeMove = (sourcePoint, destinationPoint, currentTurn, board) => {
   ) {
     // If the destination point has the opponent's piece, remove it
     destinationPointPieces.shift();
-  }
-
-  // Check if the destination point has the current user's piece
-  if (
-    destinationPointPieces.length > 0 &&
-    destinationPointPieces[0] === currentTurn
-  ) {
-    console.error("Invalid move. Destination point already has your piece.");
-    return null;
   }
 
   // Move only one piece from the source to the destination point

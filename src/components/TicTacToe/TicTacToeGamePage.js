@@ -17,6 +17,12 @@ const TicTacToeGamePage = () => {
       return;
     }
 
+    // Check if the game is already over (win or draw)
+    if (gameData.status !== "in-progress") {
+      console.error("The game has already ended.");
+      return;
+    }
+
     // Fetch the latest game data from the database
     const databaseRef = ref(database, `ticTacToeGames/${gameKey}`);
     get(databaseRef)
@@ -99,27 +105,82 @@ const TicTacToeGamePage = () => {
 
   // Implement a function to check the game status (win, draw, in-progress)
   const checkGameStatus = (board) => {
-    // Implement your TicTacToe game status checking logic here
-    // For example, you can check for winning combinations, a draw, or an ongoing game
-    // Return "in-progress" if the game is still ongoing
-    // Return the winning user's ID if there's a winner
-    // Return "draw" if the game ends in a draw
+    // Check rows for a winner
+    for (let i = 0; i < 3; i++) {
+      if (
+        board[i][0] &&
+        board[i][0] === board[i][1] &&
+        board[i][0] === board[i][2]
+      ) {
+        return board[i][0]; // Return the winner's symbol (X or O)
+      }
+    }
 
-    // Example implementation:
-    // ... (your logic here)
+    // Check columns for a winner
+    for (let i = 0; i < 3; i++) {
+      if (
+        board[0][i] &&
+        board[0][i] === board[1][i] &&
+        board[0][i] === board[2][i]
+      ) {
+        return board[0][i]; // Return the winner's symbol (X or O)
+      }
+    }
 
+    // Check diagonals for a winner
+    if (
+      board[0][0] &&
+      board[0][0] === board[1][1] &&
+      board[0][0] === board[2][2]
+    ) {
+      return board[0][0]; // Return the winner's symbol (X or O)
+    }
+    if (
+      board[0][2] &&
+      board[0][2] === board[1][1] &&
+      board[0][2] === board[2][0]
+    ) {
+      return board[0][2]; // Return the winner's symbol (X or O)
+    }
+
+    // Check for a draw
+    let isDraw = true;
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (!board[i][j]) {
+          isDraw = false;
+          break;
+        }
+      }
+      if (!isDraw) {
+        break;
+      }
+    }
+
+    if (isDraw) {
+      return "draw";
+    }
+
+    // If no winner and not a draw, return "in-progress"
     return "in-progress";
   };
 
   return (
-    <div className="container mx-auto my-4">
-      {gameData ? (
+    <div>
+      <TicTacToeHeader gameData={gameData} currentUser={currentUser} />
+      {gameData ? ( // Check if gameData is not null
         <div>
-          <h2 className="text-2xl font-bold mb-4">
-            This is the TicTacToe game page for game {gameKey}
-          </h2>
-          <TicTacToeHeader gameData={gameData} currentUser={currentUser} />
-          {gameData.board ? (
+          <h2>This is the TicTacToe game page for game {gameKey}</h2>
+          <div>
+            {/* Display player emails or "pending" */}
+            <h3>Players:</h3>
+            <p>
+              Player 1: {gameData.player1Email}
+              <br />
+              Player 2: {gameData.player2 ? gameData.player2Email : "Pending"}
+            </p>
+          </div>
+          {gameData.board ? ( // Check if gameData.board is not null
             <Board board={gameData.board} onSquareClick={handleMakeMove} />
           ) : (
             <div>
@@ -132,7 +193,7 @@ const TicTacToeGamePage = () => {
           )}
         </div>
       ) : (
-        <div>Loading...</div>
+        <div>Loading...</div> // Display a loading message if gameData is null
       )}
     </div>
   );

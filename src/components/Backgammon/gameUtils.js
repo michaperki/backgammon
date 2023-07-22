@@ -1,4 +1,4 @@
-const initializeBoard = () => {
+export const initializeBoard = () => {
   const emptyBoard = {
     0: [],
     1: [],
@@ -28,11 +28,9 @@ const initializeBoard = () => {
   return emptyBoard;
 };
 
-const rollDice = () => {
+export const rollDice = () => {
   // Roll two dice (d6)
   const die1 = Math.floor(Math.random() * 6) + 1;
   const die2 = Math.floor(Math.random() * 6) + 1;
   return [die1, die2];
 };
-
-export { initializeBoard, rollDice };

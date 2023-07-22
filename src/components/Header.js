@@ -13,7 +13,7 @@ const Header = ({ isLoggedIn, onLogout }) => {
     <header className="py-4 px-6 bg-gray-900 text-white">
       <div className="flex justify-between items-center">
         <Link to="/" className="flex items-center space-x-2">
-          <h1 className="text-xl font-semibold">KeyboardShortcutTracker</h1>
+          <h1 className="text-xl font-semibold">Backgammon</h1>
         </Link>
         {/* Mobile Menu */}
         <div className="md:hidden">

@@ -6,6 +6,7 @@ import { get } from "firebase/database";
 import BackgammonHeader from "./components/BackgammonHeader";
 import { checkValidMove, makeMove } from "./gameLogic";
 import { initializeBoard, rollDice } from "./gameUtils";
+import BackgammonDice from "./components/BackgammonDice";
 
 const convertBoardObjectToArray = (boardObject) => {
   const boardArray = new Array(24).fill().map(() => []); // Create an array of empty arrays
@@ -27,6 +28,8 @@ const BackgammonGamePage = () => {
   const [playerTurn, setPlayerTurn] = useState(""); // "black" or "white"
   const [isFirstMove, setIsFirstMove] = useState(true);
   const [isMoveInProgress, setIsMoveInProgress] = useState(false); // New state variable
+  const [isRollDiceEnabled, setIsRollDiceEnabled] = useState(false); // New state variable
+  const [isOpponentTurn, setIsOpponentTurn] = useState(false); // New state variable
 
   // Function to handle the dice roll
   const handleRollDice = () => {
@@ -34,17 +37,9 @@ const BackgammonGamePage = () => {
     const diceResult = rollDice();
     setDiceValues(diceResult);
     setRemainingDiceValues(diceResult);
-    setPlayerTurn(currentUser.uid === gameData.player1 ? "white" : "black");
   };
 
   const handleMakeMove = (sourcePoint, destinationPoint) => {
-    if (isMoveInProgress) {
-      // If a move is already in progress, prevent further execution
-      return;
-    }
-    
-    setIsMoveInProgress(true); // Set the move in progress flag
-
     // Check if the game is in progress
     if (gameData.status !== "in-progress") {
       alert("The game is not in progress!");
@@ -107,9 +102,11 @@ const BackgammonGamePage = () => {
 
       setGameData(updatedGameData);
       setIsFirstMove(true);
-      setPlayerTurn((prevPlayerTurn) =>
-        prevPlayerTurn === "black" ? "white" : "black"
-      );
+      setIsMoveInProgress(false);
+      setIsRollDiceEnabled(true);
+      setPlayerTurn(currentTurn === 0 ? "black" : "white");
+      setDiceValues([]);
+      setRemainingDiceValues([]);
 
       // Update the database
       const databaseRef = ref(database, `backgammonGames/${gameKey}`);
@@ -118,47 +115,54 @@ const BackgammonGamePage = () => {
           console.log(
             "Move successfully made and game data updated in Firebase."
           );
-
-          setIsMoveInProgress(false); // Reset the move in progress flag
         })
         .catch((error) => {
           console.error("Error updating Backgammon game data:", error);
-
-          setIsMoveInProgress(false); // Reset the move in progress flag in case of error
         });
-    } else {
-      setPlayerTurn(() => (currentTurn === 0 ? "black" : "white"));
-      setIsMoveInProgress(false); // Reset the move in progress flag for normal moves
     }
   };
 
   useEffect(() => {
     const databaseRef = ref(database, `backgammonGames/${gameKey}`);
 
-    const unsubscribe = onValue(databaseRef, (snapshot) => {
-      const gameData = snapshot.val();
+    const unsubscribe = onValue(
+      databaseRef,
+      (snapshot) => {
+        const gameData = snapshot.val();
 
-      // Check if the gameData has the 'board' property and it's not undefined
-      if (!gameData || !gameData.board) {
-        // If board is not available or is undefined, initialize the board
-        const updatedGameData = {
-          ...gameData,
-          board: initializeBoard(),
-        };
+        // Check if the gameData has the 'board' property and it's not undefined
+        if (!gameData || !gameData.board) {
+          // If board is not available or is undefined, initialize the board
+          const updatedGameData = {
+            ...gameData,
+            board: initializeBoard(),
+          };
 
-        // Convert the board object to array
-        const gameBoard = convertBoardObjectToArray(updatedGameData.board);
-        setGameData({ ...updatedGameData, board: gameBoard });
-      } else {
-        // Convert the board object to array
-        const gameBoard = convertBoardObjectToArray(gameData.board);
-        setGameData({ ...gameData, board: gameBoard });
-      }
-    });
+          // Convert the board object to array
+          const gameBoard = convertBoardObjectToArray(updatedGameData.board);
+          setGameData({ ...updatedGameData, board: gameBoard });
+        } else {
+          // Convert the board object to array
+          const gameBoard = convertBoardObjectToArray(gameData.board);
+          setGameData({ ...gameData, board: gameBoard });
+        }
 
-    // Fetch the current user (Assuming you have set up authentication)
-    const currentUser = auth.currentUser;
-    setCurrentUser(currentUser);
+        // Fetch the current user (Assuming you have set up authentication)
+        const currentUser = auth.currentUser;
+        setCurrentUser(currentUser);
+
+        // Determine if it's the current user's turn to roll the dice
+        const isCurrentUserPlayer1 = currentUser.uid === gameData.player1;
+        const isCurrentTurnPlayer1 = gameData.currentTurn === 0;
+        const isUsersTurn = isCurrentUserPlayer1 === isCurrentTurnPlayer1;
+
+        setIsOpponentTurn(!isUsersTurn); // Set the isOpponentTurn state
+
+        // Enable or disable the "Roll Dice" button based on the current turn
+        setIsRollDiceEnabled(isUsersTurn);
+      },
+      [gameKey]
+    );
 
     // Clean up the listener when the component unmounts
     return () => unsubscribe();
@@ -182,20 +186,25 @@ const BackgammonGamePage = () => {
           {diceValues.length > 0 ? (
             <div>
               {/* Display the rolled dice values */}
-              <h3>Dice Values:</h3>
-              <p>{diceValues.join(", ")}</p>
+              <BackgammonDice diceValues={diceValues} />
+              {/* Display the remaining dice values */}
+              <div>Remaining Dice: {remainingDiceValues.join(", ")}</div>
             </div>
           ) : (
-            <button onClick={handleRollDice}>Roll Dice</button>
+            <button onClick={handleRollDice} disabled={!isRollDiceEnabled}>
+              Roll Dice
+            </button>
           )}
           {gameData.board ? (
-            <BackgammonBoard
-              board={gameData.board}
-              onMove={handleMakeMove}
-              diceValues={diceValues}
-              remainingDiceValues={remainingDiceValues}
-              playerTurn={playerTurn}
-            />
+            <div className="flex justify-center items-center h-screen">
+              <BackgammonBoard
+                board={gameData.board}
+                onMove={handleMakeMove}
+                diceValues={diceValues}
+                remainingDiceValues={remainingDiceValues}
+                playerTurn={playerTurn}
+              />
+            </div>
           ) : (
             <div>
               <h3>Waiting for the game to start...</h3>

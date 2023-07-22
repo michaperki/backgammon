@@ -1,6 +1,11 @@
 import React from "react";
 
 const TicTacToeHeader = ({ gameData, currentUser }) => {
+  if (!gameData) {
+    // Handle the case when gameData is null
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="flex justify-between items-center">
       <div>
