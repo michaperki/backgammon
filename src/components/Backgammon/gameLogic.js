@@ -17,13 +17,9 @@ export const checkValidMove = (
     // pieces are represented by 1 for white and 2 for black
     const turnToColor = currentTurn + 1;
   
-    // Get the correct source and destination points based on the direction
-    const correctedSourcePoint = reverseIndex(sourcePoint);
-    const correctedDestinationPoint = reverseIndex(destinationPoint);
-  
     // sourcePointPieces and destinationPointPieces are the pieces on the board
-    const sourcePointPieces = gameData.board[correctedSourcePoint];
-    const destinationPointPieces = gameData.board[correctedDestinationPoint];
+    const sourcePointPieces = gameData.board[sourcePoint];
+    const destinationPointPieces = gameData.board[destinationPoint];
   
     // If the sourcePoint is empty, return false
     if (sourcePointPieces.length === 0) {
@@ -34,6 +30,8 @@ export const checkValidMove = (
     // If the sourcePoint is not the current player's turn, return false
     if (sourcePointPieces[0] !== turnToColor) {
         console.log("sourcePointPieces[0] !== turnToColor");
+        console.log("sourcePointPieces[0]", sourcePointPieces[0]);
+        console.log("turnToColor", turnToColor);
       return false;
     }
   
@@ -48,8 +46,8 @@ export const checkValidMove = (
     }
   
     // If the destinationPoint is greater than 23 or less than 0, return false
-    if (correctedDestinationPoint > 23 || correctedDestinationPoint < 0) {
-        console.log("correctedDestinationPoint > 23 || correctedDestinationPoint < 0");
+    if (destinationPoint > 23 || destinationPoint < 0) {
+        console.log("destinationPoint > 23 || destinationPoint < 0");
       return false;
     }
   

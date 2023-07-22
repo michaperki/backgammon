@@ -12,7 +12,8 @@ const BackgammonBoard = ({ board, onMove }) => {
 
   // State variables to store the selected source and destination points
   const [selectedSourcePoint, setSelectedSourcePoint] = useState(null);
-  const [selectedDestinationPoint, setSelectedDestinationPoint] = useState(null);
+  const [selectedDestinationPoint, setSelectedDestinationPoint] =
+    useState(null);
 
   // Function to handle selecting a point
   const handleSelectPoint = (pointIndex) => {
@@ -28,7 +29,10 @@ const BackgammonBoard = ({ board, onMove }) => {
 
   // Function to check if a point is selected
   const isPointSelected = (pointIndex) => {
-    return pointIndex === selectedSourcePoint || pointIndex === selectedDestinationPoint;
+    return (
+      pointIndex === selectedSourcePoint ||
+      pointIndex === selectedDestinationPoint
+    );
   };
 
   // Function to handle the move
@@ -61,10 +65,12 @@ const BackgammonBoard = ({ board, onMove }) => {
               <div
                 key={pieceIndex}
                 className={`backgammon-board__piece backgammon-board__piece--${
-                  piece === 1 ? "black" : piece === 2 ? "white" : "empty"
+                  piece === 1 ? "white" : piece === 2 ? "black" : "empty"
                 }`}
               >
-                {piece !== 0 && <BackgammonPiece color={piece === 1 ? "black" : "white"} />}
+                {piece !== 0 && (
+                  <BackgammonPiece color={piece === 1 ? "white" : "black"} />
+                )}
               </div>
             ))}
           </div>
@@ -83,15 +89,18 @@ const BackgammonBoard = ({ board, onMove }) => {
               <div
                 key={pieceIndex}
                 className={`backgammon-board__piece backgammon-board__piece--${
-                  piece === 1 ? "black" : piece === 2 ? "white" : "empty"
+                  piece === 1 ? "white" : piece === 2 ? "black" : "empty"
                 }`}
               >
-                {piece !== 0 && <BackgammonPiece color={piece === 1 ? "black" : "white"} />}
+                {piece !== 0 && (
+                  <BackgammonPiece color={piece === 1 ? "white" : "black"} />
+                )}
               </div>
             ))}
           </div>
         ))}
       </div>
+
       {/* Display the selected points */}
       <div>
         {selectedSourcePoint !== null && (
@@ -105,7 +114,9 @@ const BackgammonBoard = ({ board, onMove }) => {
       <button
         className="mt-4"
         onClick={handleMakeMove}
-        disabled={selectedSourcePoint === null || selectedDestinationPoint === null}
+        disabled={
+          selectedSourcePoint === null || selectedDestinationPoint === null
+        }
       >
         Make Move
       </button>
