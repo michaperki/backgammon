@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Sidebar from "./Sidebar";
 
-const Header = ({ isLoggedIn, onLogout }) => {
+const Header = ({ isLoggedIn, onLogout, walletAddress, onConnectWallet }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleMenuToggle = () => {
@@ -53,12 +53,19 @@ const Header = ({ isLoggedIn, onLogout }) => {
           }`}
         >
           {isLoggedIn ? (
-            <button
-              className="bg-transparent hover:bg-white text-white hover:text-gray-900 border border-white hover:border-transparent rounded-md px-4 py-2 transition-colors"
-              onClick={onLogout}
-            >
-              Logout
-            </button>
+            <>
+              {walletAddress ? (
+                <p>...{walletAddress.slice(-3)}</p>
+              ) : (
+                <button onClick={onConnectWallet}>Connect Wallet</button>
+              )}
+              <button
+                className="bg-transparent hover:bg-white text-white hover:text-gray-900 border border-white hover:border-transparent rounded-md px-4 py-2 transition-colors"
+                onClick={onLogout}
+              >
+                Logout
+              </button>
+            </>
           ) : (
             <>
               <Link

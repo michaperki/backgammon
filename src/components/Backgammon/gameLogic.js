@@ -128,3 +128,29 @@ export const makeMove = (sourcePoint, destinationPoint, currentTurn, board) => {
 
   return updatedBoard;
 };
+
+export const checkWinner = (board, currentTurn) => {
+    // Define the starting and ending points for each player
+    const startingPointPlayer0 = 0;
+    const endingPointPlayer0 = 5;
+    const startingPointPlayer1 = 18;
+    const endingPointPlayer1 = 23;
+  
+    // Check if any piece of the current player has reached the opponent's side
+    if (currentTurn === 0) {
+      for (let i = startingPointPlayer0; i <= endingPointPlayer0; i++) {
+        if (board[i]?.includes(0)) {
+          return 0; // Player 0 wins
+        }
+      }
+    } else {
+      for (let i = startingPointPlayer1; i <= endingPointPlayer1; i++) {
+        if (board[i]?.includes(1)) {
+          return 1; // Player 1 wins
+        }
+      }
+    }
+  
+    return -1; // No winner yet
+  };
+  

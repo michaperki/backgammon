@@ -53,6 +53,24 @@ const BackgammonBoard = ({ board, onMove }) => {
       {/* Backgammon board rendering */}
       {/* Render two rows */}
       <div className="backgammon-board-row">
+        {/* Add the bar point before point 0 */}
+        <div
+          className={`backgammon-board__point backgammon-board__point--bar`}
+        >
+          {board[-1]?.map((piece, pieceIndex) => (
+            <div
+              key={pieceIndex}
+              className={`backgammon-board__piece backgammon-board__piece--${
+                piece === 1 ? "white" : piece === 2 ? "black" : "empty"
+              }`}
+            >
+              {piece !== 0 && (
+                <BackgammonPiece color={piece === 1 ? "white" : "black"} />
+              )}
+            </div>
+          ))}
+        </div>
+
         {firstRowPoints.map(([pointIndex, point]) => (
           <div
             key={pointIndex}
@@ -99,6 +117,23 @@ const BackgammonBoard = ({ board, onMove }) => {
             ))}
           </div>
         ))}
+        {/* Add the bar point after point 23 */}
+        <div
+          className={`backgammon-board__point backgammon-board__point--bar`}
+        >
+          {board[24]?.map((piece, pieceIndex) => (
+            <div
+              key={pieceIndex}
+              className={`backgammon-board__piece backgammon-board__piece--${
+                piece === 1 ? "white" : piece === 2 ? "black" : "empty"
+              }`}
+            >
+              {piece !== 0 && (
+                <BackgammonPiece color={piece === 1 ? "white" : "black"} />
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Display the selected points */}

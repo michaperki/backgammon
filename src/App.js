@@ -17,6 +17,25 @@ import BackgammonGamePage from "./components/Backgammon/BackgammonGamePage";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [walletAddress, setWalletAddress] = useState(null);
+
+  const connectWallet = async () => {
+    if (typeof window != "undefined" && typeof window.ethereum != "undefined") {
+      try {
+        /* MetaMask is installed */
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        setWalletAddress(accounts[0]);
+        console.log(accounts[0]);
+      } catch (err) {
+        console.error(err.message);
+      }
+    } else {
+      /* MetaMask is not installed */
+      console.log("Please install MetaMask");
+    }
+  };
 
   // Function to handle user login
   const handleLogin = (email, password) => {
@@ -67,14 +86,19 @@ function App() {
   return (
     <Router>
       <div>
-        <Header isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+        <Header
+          isLoggedIn={isLoggedIn}
+          onLogout={handleLogout}
+          walletAddress={walletAddress} // Pass the walletAddress to the Header component
+          onConnectWallet={connectWallet} // Pass the connectWallet function to the Header component
+        />
         <section>
           <Routes>
             <Route
               path="/backgammon"
               element={<Home isLoggedIn={isLoggedIn} user={user} />}
             />
-            <Route path="/signup" element={<Signup />} />
+            <Route path="/backgammon/signup" element={<Signup />} />
             <Route
               path="/backgammon/login"
               element={<Login handleUserLogin={handleLogin} />}
@@ -91,6 +115,9 @@ function App() {
             />
           </Routes>
         </section>
+
+        <button onClick={connectWallet}>Connect Wallet</button>
+        {walletAddress && <p>Wallet Address: {walletAddress}</p>}
       </div>
     </Router>
   );

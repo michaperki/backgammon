@@ -4,7 +4,7 @@ import { database, ref, set, onValue, auth } from "../../firebase";
 import BackgammonBoard from "./components/BackgammonBoard";
 import { get } from "firebase/database";
 import BackgammonHeader from "./components/BackgammonHeader";
-import { checkValidMove, makeMove } from "./gameLogic";
+import { checkValidMove, checkWinner, makeMove } from "./gameLogic";
 import { initializeBoard, rollDice } from "./gameUtils";
 import BackgammonDice from "./components/BackgammonDice";
 
@@ -96,9 +96,7 @@ const BackgammonGamePage = () => {
       console.error("Invalid move. Destination point already has your piece.");
       return;
     }
-  
-    console.log("Updated Board:", updatedBoard); // Check if the board is updated correctly
-  
+    
     // Update remaining dice values
     const pointsMoved = Math.abs(destinationPoint - sourcePoint);
     const remainingValues = [...remainingDiceValues]; // Create a copy of remainingDiceValues
@@ -135,6 +133,12 @@ const BackgammonGamePage = () => {
         .catch((error) => {
           console.error("Error updating Backgammon game data:", error);
         });
+    }
+
+    const winner = checkWinner(updatedBoard, currentTurn);
+    if (winner !== -1) {
+      console.log(`Player ${winner} wins!`);
+      // You can handle the game end logic here, such as displaying a message or resetting the game.
     }
   };
 
