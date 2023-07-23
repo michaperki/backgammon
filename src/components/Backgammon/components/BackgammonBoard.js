@@ -6,9 +6,22 @@ const BackgammonBoard = ({ board, onMove }) => {
   // Convert the board object to an array of points with their respective pieces
   const points = Object.entries(board);
 
+  const whiteBearOff = points[25];
+  const blackBearOff = points[26];
+
+  const whiteBar = [1];
+  const blackBar = [1];
+
   // Divide the points array into two rows
-  const firstRowPoints = points.slice(0, 12);
-  const secondRowPoints = points.slice(12);
+  const firstRowPoints = points.slice(1, 13);
+  const secondRowPoints = points.slice(13, 25);
+
+  console.log("firstRowPoints", firstRowPoints);
+  console.log("secondRowPoints", secondRowPoints);
+  console.log("whiteBearOff", whiteBearOff);
+  console.log("blackBearOff", blackBearOff);
+  console.log("whiteBar", whiteBar);
+  console.log("blackBar", blackBar);
 
   // State variables to store the selected source and destination points
   const [selectedSourcePoint, setSelectedSourcePoint] = useState(null);
@@ -50,27 +63,29 @@ const BackgammonBoard = ({ board, onMove }) => {
 
   return (
     <div className="backgammon-board flex">
-      {/* Backgammon board rendering */}
-      {/* Render two rows */}
-      <div className="backgammon-board-row">
-        {/* Add the bar point before point 0 */}
-        <div
-          className={`backgammon-board__point backgammon-board__point--bar`}
-        >
-          {board[-1]?.map((piece, pieceIndex) => (
+      <div className="backgammon-bear-off backgammon-bear-off--white">
+        {whiteBearOff &&
+          whiteBearOff.map((piece, pieceIndex) => (
             <div
               key={pieceIndex}
-              className={`backgammon-board__piece backgammon-board__piece--${
+              className={`backgammon-board__bear-off-piece backgammon-board__piece--${
                 piece === 1 ? "white" : piece === 2 ? "black" : "empty"
               }`}
-            >
-              {piece !== 0 && (
-                <BackgammonPiece color={piece === 1 ? "white" : "black"} />
-              )}
-            </div>
+            ></div>
           ))}
+      </div>
+      <div className="backgammon-board-row">
+        <div className="backgammon-board__bar backgammon-board__bar--black">
+          {blackBar &&
+            blackBar.map((piece, pieceIndex) => (
+              <div
+                key={pieceIndex}
+                className={`backgammon-board__bar-piece backgammon-board__piece--${
+                  piece === 1 ? "white" : piece === 2 ? "black" : "empty"
+                }`}
+              ></div>
+            ))}
         </div>
-
         {firstRowPoints.map(([pointIndex, point]) => (
           <div
             key={pointIndex}
@@ -117,26 +132,29 @@ const BackgammonBoard = ({ board, onMove }) => {
             ))}
           </div>
         ))}
-        {/* Add the bar point after point 23 */}
-        <div
-          className={`backgammon-board__point backgammon-board__point--bar`}
-        >
-          {board[24]?.map((piece, pieceIndex) => (
-            <div
-              key={pieceIndex}
-              className={`backgammon-board__piece backgammon-board__piece--${
-                piece === 1 ? "white" : piece === 2 ? "black" : "empty"
-              }`}
-            >
-              {piece !== 0 && (
-                <BackgammonPiece color={piece === 1 ? "white" : "black"} />
-              )}
-            </div>
-          ))}
+        <div className="backgammon-board__bar backgammon-board__bar--white">
+          {whiteBar &&
+            whiteBar.map((piece, pieceIndex) => (
+              <div
+                key={pieceIndex}
+                className={`backgammon-board__bar-piece backgammon-board__piece--${
+                  piece === 1 ? "white" : piece === 2 ? "black" : "empty"
+                }`}
+              ></div>
+            ))}
         </div>
       </div>
-
-      {/* Display the selected points */}
+      <div className="backgammon-bear-off backgammon-bear-off--black">
+        {blackBearOff &&
+          blackBearOff.map((piece, pieceIndex) => (
+            <div
+              key={pieceIndex}
+              className={`backgammon-board__bear-off-piece backgammon-board__piece--${
+                piece === 1 ? "white" : piece === 2 ? "black" : "empty"
+              }`}
+            ></div>
+          ))}
+      </div>
       <div>
         {selectedSourcePoint !== null && (
           <p>Selected Source: {selectedSourcePoint}</p>

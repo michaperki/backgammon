@@ -24,38 +24,11 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app);
 
-const addShortcutToDatabase = (shortcut, userId, userEmail) => {
-  const newShortcutRef = ref(database, `users/${userId}/shortcuts`);
-  const newShortcutData = {
-    ...shortcut,
-    userId,
-    userEmail,
-    deleted: false,
-  };
-
-  const newShortcutKey = push(newShortcutRef).key;
-  const newShortcutWithKey = { ...newShortcutData, key: newShortcutKey };
-
-  return set(newShortcutRef.child(newShortcutKey), newShortcutWithKey).then(
-    () => newShortcutWithKey
-  );
-};
-
-const updateShortcutInDatabase = (shortcutKey, updates) => {
-  const databaseRef = ref(
-    database,
-    `users/${updates.userId}/shortcuts/${shortcutKey}`
-  );
-  return set(databaseRef, updates, { merge: true });
-};
-
 export {
   auth,
   database,
   ref,
   set,
-  addShortcutToDatabase,
-  updateShortcutInDatabase,
   onValue,
   push,
   orderByChild,

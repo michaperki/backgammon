@@ -3,7 +3,6 @@
 
 import React, { useState, useEffect } from "react";
 import {
-  auth,
   database,
   set,
   onValue,
@@ -14,8 +13,6 @@ import {
   orderByChild,
 } from "../firebase";
 import { useNavigate } from "react-router-dom";
-import { get } from "firebase/database";
-import BackgammonGamePage from "./Backgammon/BackgammonGamePage";
 import { createStartingBoard } from "./Backgammon/gameUtils";
 
 const Home = ({ isLoggedIn, user }) => {
@@ -52,7 +49,7 @@ const Home = ({ isLoggedIn, user }) => {
     }
   };
 
-  const handleJoinBackgammonGame = (gameKey, gameData) => {
+  const handleJoinGame = (gameKey, gameData) => {
     if (user && user.uid) {
       // Check if the game is still waiting
       if (gameData.status === "waiting") {
@@ -152,7 +149,6 @@ const Home = ({ isLoggedIn, user }) => {
           >
             Start Backgammon
           </button>
-
           {/* Display waiting Backgammon games */}
           {waitingGames.length > 0 && (
             <div className="mt-8">
@@ -162,7 +158,7 @@ const Home = ({ isLoggedIn, user }) => {
                   <li key={game.key}>
                     <button
                       className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded"
-                      onClick={() => handleJoinBackgammonGame(game.key, game)}
+                      onClick={() => handleJoinGame(game.key, game)}
                     >
                       Join Game {game.key}
                     </button>

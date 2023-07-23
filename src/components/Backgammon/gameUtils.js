@@ -1,60 +1,34 @@
-export const initializeBoard = () => {
-  const emptyBoard = {
-    0: [],
-    1: [],
+export const createStartingBoard = () => {
+  // create the starting board
+  const startingBoard = {
+    0: [], // White bar
+    1: [1, 1, 1, 1, 1],
     2: [],
     3: [],
     4: [],
-    5: [],
+    5: [2, 2, 2],
     6: [],
-    7: [],
+    7: [2, 2, 2, 2, 2],
     8: [],
     9: [],
     10: [],
     11: [],
-    12: [],
-    13: [],
+    12: [1, 1],
+    13: [2, 2],
     14: [],
     15: [],
     16: [],
     17: [],
-    18: [],
+    18: [1, 1, 1, 1, 1],
     19: [],
-    20: [],
+    20: [1, 1, 1],
     21: [],
     22: [],
     23: [],
-  };
-  return emptyBoard;
-};
-
-export const createStartingBoard = () => {
-  // create the starting board
-  const startingBoard = {
-    0: [1, 1, 1, 1, 1],
-    1: [],
-    2: [],
-    3: [],
-    4: [2, 2, 2],
-    5: [],
-    6: [2, 2, 2, 2, 2],
-    7: [],
-    8: [],
-    9: [],
-    10: [],
-    11: [1, 1],
-    12: [2, 2],
-    13: [],
-    14: [],
-    15: [],
-    16: [],
-    17: [1, 1, 1, 1, 1],
-    18: [],
-    19: [1, 1, 1],
-    20: [],
-    21: [],
-    22: [],
-    23: [2, 2, 2, 2, 2],
+    24: [2, 2, 2, 2, 2],
+    25: [], // Black bar
+    26: [], // White bear off
+    27: [], // Black bear off
   };
 
   return startingBoard;

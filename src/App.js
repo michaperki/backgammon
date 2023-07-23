@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Home from "./components/HomePage";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
-import TicTacToeGamePage from "./components/TicTacToe/TicTacToeGamePage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import {
@@ -115,9 +114,6 @@ function App() {
             />
           </Routes>
         </section>
-
-        <button onClick={connectWallet}>Connect Wallet</button>
-        {walletAddress && <p>Wallet Address: {walletAddress}</p>}
       </div>
     </Router>
   );

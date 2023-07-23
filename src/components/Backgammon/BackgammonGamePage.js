@@ -5,7 +5,7 @@ import BackgammonBoard from "./components/BackgammonBoard";
 import { get } from "firebase/database";
 import BackgammonHeader from "./components/BackgammonHeader";
 import { checkValidMove, checkWinner, makeMove } from "./gameLogic";
-import { initializeBoard, rollDice } from "./gameUtils";
+import { createStartingBoard, initializeBoard, rollDice } from "./gameUtils";
 import BackgammonDice from "./components/BackgammonDice";
 
 const convertBoardObjectToArray = (boardObject) => {
@@ -155,7 +155,7 @@ const BackgammonGamePage = () => {
           // If board is not available or is undefined, initialize the board
           const updatedGameData = {
             ...gameData,
-            board: initializeBoard(),
+            board: createStartingBoard(),
           };
 
           // Convert the board object to array

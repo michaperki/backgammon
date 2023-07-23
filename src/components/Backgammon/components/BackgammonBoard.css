@@ -15,6 +15,52 @@
   transform: scaleX(-1); /* Flip the row horizontally */
 }
 
+/* Style for the bar container */
+.backgammon-board__bar {
+  display: flex;
+  flex-direction: column; /* Display the bar vertically */
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  width: 50px; /* Same width as the points */
+  height: 200px; /* Same height as the points */
+  background-color: lightgray; /* Color for the bar background */
+}
+
+/* Style for the bear-off containers */
+.backgammon-bear-off {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  width: 600px;
+  height: 40px;
+  background-color: lightgray;
+  border: 1px solid black;
+}
+
+/* Styling for the white bear-off */
+.backgammon-bear-off--white {
+  background-color: #f7f7f7;
+}
+
+/* Styling for the black bear-off */
+.backgammon-bear-off--black {
+  background-color: #444;
+}
+
+.backgammon-bear-off-piece {
+  /* Styling for the pieces in the bear-off areas */
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
 .backgammon-board__point {
   position: relative; /* Add relative positioning to the points container */
   display: flex;
@@ -28,7 +74,7 @@
 }
 
 /* Add a divider between points 5 and 6 */
-.backgammon-board__point--5::after {
+.backgammon-board__point--6::after {
   content: "";
   position: absolute;
   top: 0;
@@ -38,7 +84,7 @@
 }
 
 /* Add a divider between points 17 and 18 */
-.backgammon-board__point--17::after {
+.backgammon-board__point--18::after {
   content: "";
   position: absolute;
   top: 0;
@@ -48,28 +94,6 @@
 }
 
 .backgammon-board__piece {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Styles for the bar points */
-.backgammon-board__point--bar {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid black;
-  width: 50px;
-  height: 60px; /* Adjust the height of the bar points */
-  background: linear-gradient(45deg, #eee 50%, #ccc 50%);
-}
-
-/* Styles for the pieces in the bar points */
-.backgammon-board__point--bar .backgammon-board__piece {
   width: 30px;
   height: 30px;
   border-radius: 50%;
