@@ -33,17 +33,22 @@ const BackgammonGamePage = () => {
   const [isRollDiceEnabled, setIsRollDiceEnabled] = useState(false); // New state variable
   const [isOpponentTurn, setIsOpponentTurn] = useState(false); // New state variable
 
+  const handleRollDoubles = (diceRoll) => {
+    // if the roll is a double
+    if (diceRoll[0] === diceRoll[1]) {
+      // set the remaining dice values to the double
+      setRemainingDiceValues([...diceRoll, ...diceRoll]);
+    } else {
+      // set the remaining dice values to the roll
+      setRemainingDiceValues(diceRoll);
+    }
+  };
+
   // Function to handle the dice roll
   const handleRollDice = () => {
     const diceResult = rollDice();
     setDiceValues(diceResult);
-    setRemainingDiceValues(diceResult);
-
-    // if the roll is a double
-    if (diceResult[0] === diceResult[1]) {
-      // set the remaining dice values to the double
-      setRemainingDiceValues([...diceResult, ...diceResult]);
-    }
+    handleRollDoubles(diceResult);
   };
 
   const handleMakeMove = (sourcePoint, destinationPoint) => {
@@ -96,7 +101,7 @@ const BackgammonGamePage = () => {
       console.error("Invalid move. Destination point already has your piece.");
       return;
     }
-    
+
     // Update remaining dice values
     const pointsMoved = Math.abs(destinationPoint - sourcePoint);
     const remainingValues = [...remainingDiceValues]; // Create a copy of remainingDiceValues
