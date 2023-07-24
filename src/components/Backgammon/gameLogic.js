@@ -113,7 +113,7 @@ export const makeMove = (sourcePoint, destinationPoint, currentTurn, board) => {
     // If the destination point has one of the opponent's piece, move the opponent's piece to the bar
     console.log("Moving opponent's piece to the bar.")
     const opponentPiece = destinationPointPieces.pop();
-    opponentPiece === 1 ? board[25].push(opponentPiece) : board[0].push(opponentPiece);
+    opponentPiece === 1 ? board[0].push(opponentPiece) : board[25].push(opponentPiece);
   }
 
   // Move only one piece from the source to the destination point
