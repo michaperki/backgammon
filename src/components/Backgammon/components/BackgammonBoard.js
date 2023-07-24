@@ -9,6 +9,8 @@ const BackgammonBoard = ({ board, onMove }) => {
   const [selectedDestinationPoint, setSelectedDestinationPoint] =
     useState(null);
 
+    console.log("number of board points when rendering the board", Object.keys(board).length);
+
   const {
     whiteBearOff,
     blackBearOff,
@@ -65,8 +67,8 @@ const BackgammonBoard = ({ board, onMove }) => {
       </div>
       <div className="backgammon-board-row backgammon-board-row--flipped">
         <div className="backgammon-board__bar backgammon-board__bar--black">
-          {blackBar &&
-            blackBar.map((piece, pieceIndex) => (
+          {whiteBar &&
+            whiteBar[1].map((piece, pieceIndex) => (
               <div
                 key={pieceIndex}
                 className={`backgammon-board__bar-piece backgammon-board__piece--${
@@ -122,8 +124,8 @@ const BackgammonBoard = ({ board, onMove }) => {
           </div>
         ))}
         <div className="backgammon-board__bar backgammon-board__bar--white">
-          {whiteBar &&
-            whiteBar.map((piece, pieceIndex) => (
+          {blackBar &&
+            blackBar[1].map((piece, pieceIndex) => (
               <div
                 key={pieceIndex}
                 className={`backgammon-board__bar-piece backgammon-board__piece--${

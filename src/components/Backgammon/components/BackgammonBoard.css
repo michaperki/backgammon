@@ -93,6 +93,25 @@
   border-left: 3px solid red;
 }
 
+.backgammon-board__bar-piece {
+  /* Styling for the pieces in the bar */
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backgammon-board__bar-piece--black {
+  background-color: black;
+}
+
+.backgammon-board__bar-piece--white {
+  background-color: white;
+}
+
+
 .backgammon-board__piece {
   width: 30px;
   height: 30px;

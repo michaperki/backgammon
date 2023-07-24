@@ -31,6 +31,8 @@ export const createStartingBoard = () => {
     27: [], // Black bear off
   };
 
+  console.log("number of points when creating the board:", Object.keys(startingBoard).length)
+
   return startingBoard;
 };
 
@@ -54,8 +56,8 @@ export const divideBoardArray = (board) => {
   const whiteBearOff = points[25];
   const blackBearOff = points[26];
 
-  const whiteBar = [1];
-  const blackBar = [1];
+  const whiteBar = points[0];
+  const blackBar = points[25];
 
   // Divide the points array into two rows
   const firstRowPoints = points.slice(1, 13);

@@ -8,13 +8,6 @@ export const checkValidMove = (
   direction,
   remainingDiceValues
 ) => {
-  console.log("sourcePoint", sourcePoint);
-  console.log("destinationPoint", destinationPoint);
-  console.log("currentTurn", currentTurn);
-  console.log("gameData", gameData);
-  console.log("direction", direction);
-  console.log("remainingDiceValues", remainingDiceValues);
-
   // turn 0 is the white player, turn 1 is the black player
   // pieces are represented by 1 for white and 2 for black
   const turnToColor = currentTurn + 1;
@@ -50,8 +43,8 @@ export const checkValidMove = (
   }
 
   // If the destinationPoint is greater than 23 or less than 0, return false
-  if (destinationPoint > 23 || destinationPoint < 0) {
-    console.log("destinationPoint > 23 || destinationPoint < 0");
+  if (destinationPoint > 25 || destinationPoint < 1) {
+    console.log("destinationPoint > 25 || destinationPoint < 1");
     return false;
   }
 
@@ -108,16 +101,24 @@ export const makeMove = (sourcePoint, destinationPoint, currentTurn, board) => {
     destinationPointPieces.length > 1 &&
     destinationPointPieces[0] !== (currentTurn + 1)
   ) {
-    // If the destination point has the opponent's piece, remove it
-    destinationPointPieces.shift();
+    console.error("Destination point has more than one of the opponent's piece.");
+    return null;
+  }
+
+  // Check if the destination point has one of the opponent's piece
+  if (
+    destinationPointPieces.length === 1 &&
+    destinationPointPieces[0] !== (currentTurn + 1)
+  ) {
+    // If the destination point has one of the opponent's piece, move the opponent's piece to the bar
+    console.log("Moving opponent's piece to the bar.")
+    const opponentPiece = destinationPointPieces.pop();
+    opponentPiece === 1 ? board[25].push(opponentPiece) : board[0].push(opponentPiece);
   }
 
   // Move only one piece from the source to the destination point
   const movedPiece = sourcePointPieces.pop();
   destinationPointPieces.push(movedPiece);
-  console.log("movedPiece", movedPiece);
-  console.log("sourcePointPieces", sourcePointPieces);
-  console.log("destinationPointPieces", destinationPointPieces);
 
   // Update the board
   const updatedBoard = {

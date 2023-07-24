@@ -9,14 +9,12 @@ import { createStartingBoard, initializeBoard, rollDice } from "./gameUtils";
 import BackgammonDice from "./components/BackgammonDice";
 
 const convertBoardObjectToArray = (boardObject) => {
-  const boardArray = new Array(24).fill().map(() => []); // Create an array of empty arrays
+  const boardArray = new Array(28).fill().map(() => []); // Create an array of empty arrays
 
   // Loop through the board object and add the pieces to the board array
   for (const [pointIndex, point] of Object.entries(boardObject)) {
     boardArray[pointIndex] = point;
   }
-
-  console.log("boardArray", boardArray);
 
   return boardArray;
 };
@@ -141,7 +139,7 @@ const BackgammonGamePage = () => {
     }
 
     const winner = checkWinner(updatedBoard, currentTurn);
-    if (winner !== -1) {
+    if (winner === -99) {
       console.log(`Player ${winner} wins!`);
       // You can handle the game end logic here, such as displaying a message or resetting the game.
     }
