@@ -16,6 +16,19 @@ export const checkValidMove = (
   const sourcePointPieces = gameData.board[sourcePoint];
   const destinationPointPieces = gameData.board[destinationPoint];
 
+  // If their are pieces on the bar, the player must move them first
+  if (currentTurn === 0 && gameData.board[0].length > 0) {
+    if (sourcePoint !== 0) {
+      console.log("you must move the pieces on the bar first");
+      return false;
+    }
+  } else if (currentTurn === 1 && gameData.board[25].length > 0) {
+    if (sourcePoint !== 25) {
+      console.log("you must move the pieces on the bar first");
+      return false;
+    }
+  }
+
   // If the sourcePoint is empty, return false
   if (sourcePointPieces.length === 0) {
     console.log("sourcePointPieces.length === 0");
@@ -99,21 +112,25 @@ export const makeMove = (sourcePoint, destinationPoint, currentTurn, board) => {
   // Check if the destination point has more than one of the opponent's piece
   if (
     destinationPointPieces.length > 1 &&
-    destinationPointPieces[0] !== (currentTurn + 1)
+    destinationPointPieces[0] !== currentTurn + 1
   ) {
-    console.error("Destination point has more than one of the opponent's piece.");
+    console.error(
+      "Destination point has more than one of the opponent's piece."
+    );
     return null;
   }
 
   // Check if the destination point has one of the opponent's piece
   if (
     destinationPointPieces.length === 1 &&
-    destinationPointPieces[0] !== (currentTurn + 1)
+    destinationPointPieces[0] !== currentTurn + 1
   ) {
     // If the destination point has one of the opponent's piece, move the opponent's piece to the bar
-    console.log("Moving opponent's piece to the bar.")
+    console.log("Moving opponent's piece to the bar.");
     const opponentPiece = destinationPointPieces.pop();
-    opponentPiece === 1 ? board[0].push(opponentPiece) : board[25].push(opponentPiece);
+    opponentPiece === 1
+      ? board[0].push(opponentPiece)
+      : board[25].push(opponentPiece);
   }
 
   // Move only one piece from the source to the destination point
@@ -131,27 +148,26 @@ export const makeMove = (sourcePoint, destinationPoint, currentTurn, board) => {
 };
 
 export const checkWinner = (board, currentTurn) => {
-    // Define the starting and ending points for each player
-    const startingPointPlayer0 = 0;
-    const endingPointPlayer0 = 5;
-    const startingPointPlayer1 = 18;
-    const endingPointPlayer1 = 23;
-  
-    // Check if any piece of the current player has reached the opponent's side
-    if (currentTurn === 0) {
-      for (let i = startingPointPlayer0; i <= endingPointPlayer0; i++) {
-        if (board[i]?.includes(0)) {
-          return 0; // Player 0 wins
-        }
-      }
-    } else {
-      for (let i = startingPointPlayer1; i <= endingPointPlayer1; i++) {
-        if (board[i]?.includes(1)) {
-          return 1; // Player 1 wins
-        }
+  // Define the starting and ending points for each player
+  const startingPointPlayer0 = 0;
+  const endingPointPlayer0 = 5;
+  const startingPointPlayer1 = 18;
+  const endingPointPlayer1 = 23;
+
+  // Check if any piece of the current player has reached the opponent's side
+  if (currentTurn === 0) {
+    for (let i = startingPointPlayer0; i <= endingPointPlayer0; i++) {
+      if (board[i]?.includes(0)) {
+        return 0; // Player 0 wins
       }
     }
-  
-    return -1; // No winner yet
-  };
-  
+  } else {
+    for (let i = startingPointPlayer1; i <= endingPointPlayer1; i++) {
+      if (board[i]?.includes(1)) {
+        return 1; // Player 1 wins
+      }
+    }
+  }
+
+  return -1; // No winner yet
+};

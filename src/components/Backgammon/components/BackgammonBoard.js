@@ -9,8 +9,6 @@ const BackgammonBoard = ({ board, onMove }) => {
   const [selectedDestinationPoint, setSelectedDestinationPoint] =
     useState(null);
 
-    console.log("number of board points when rendering the board", Object.keys(board).length);
-
   const {
     whiteBearOff,
     blackBearOff,
@@ -66,7 +64,10 @@ const BackgammonBoard = ({ board, onMove }) => {
           ))}
       </div>
       <div className="backgammon-board-row backgammon-board-row--flipped">
-        <div className="backgammon-board__bar backgammon-board__bar--black">
+        <div
+          className="backgammon-board__bar backgammon-board__bar--black"
+          onClick={() => handleSelectPoint(0)}
+        >
           {whiteBar &&
             whiteBar[1].map((piece, pieceIndex) => (
               <div
@@ -123,7 +124,10 @@ const BackgammonBoard = ({ board, onMove }) => {
             ))}
           </div>
         ))}
-        <div className="backgammon-board__bar backgammon-board__bar--white">
+        <div
+          className="backgammon-board__bar backgammon-board__bar--white"
+          onClick={() => handleSelectPoint(25)}
+        >
           {blackBar &&
             blackBar[1].map((piece, pieceIndex) => (
               <div
